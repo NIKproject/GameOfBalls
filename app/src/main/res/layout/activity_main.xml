@@ -18,11 +18,18 @@
         android:layout_below="@id/start_button" />
 
     <Button
+        android:text="Help"
+        android:id="@+id/help_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score_button" />
+
+    <Button
         android:text="Exit"
         android:id="@+id/exit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/score_button" />
+        android:layout_below="@id/help_button" />
 
 
 </RelativeLayout>
