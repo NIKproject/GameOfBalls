@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GameOfBalls</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">It\'s only the demo version. Purchase the game to continue</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_help_">Help_Activity</string>
     <string name="title_activity_score_">Score_Activity</string>
