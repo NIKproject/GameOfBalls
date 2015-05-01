@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Help_Activity"
+            android:label="@string/title_activity_help_" >
+        </activity>
+        <activity
+            android:name=".Score_Activity"
+            android:label="@string/title_activity_score_" >
+        </activity>
+        <activity
+            android:name=".LevelSelect_Activity"
+            android:label="@string/title_activity_level_select_" >
+        </activity>
     </application>
 
 </manifest>

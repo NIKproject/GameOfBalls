@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world! És most ?dgn</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_help_">Help_Activity</string>
+    <string name="title_activity_score_">Score_Activity</string>
+    <string name="title_activity_level_select_">LevelSelect_Activity</string>
 </resources>
