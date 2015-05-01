@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">GameOfBalls</string>
 
-    <string name="hello_world">Hello world! És most ?dgn</string>
+    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_help_">Help_Activity</string>
     <string name="title_activity_score_">Score_Activity</string>
     <string name="title_activity_level_select_">LevelSelect_Activity</string>
+    <string name="text_help">In this game you control a ball, and your goal is to finish every level and in the meantime collect as many points as possible. Each level has it\'s way to make your task harder and to make you crazy. So be patient and careful. You will have to try again and again. \n You can easily control the ball with a gyroscope. So you only have to move your phone. \n Good Luck!</string>
 </resources>
