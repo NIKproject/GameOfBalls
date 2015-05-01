@@ -1,8 +1,11 @@
 package nik.mobil.gameofballs;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -38,6 +41,7 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         //super.onDraw(canvas);
-
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.game_of_balls);
+        canvas.drawBitmap(bitmap,0,0,null);
     }
 }
