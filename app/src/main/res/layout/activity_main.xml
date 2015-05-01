@@ -1,22 +1,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainLayout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/game_of_balls">
 
-    <Button
-        android:text="Start"
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="openGame"/>
+
 
     <Button
         android:text="Score"
         android:id="@+id/score_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/start_button"
-        android:onClick="openScore"/>
+        android:onClick="openScore"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <Button
+        android:text="Start"
+        android:id="@+id/start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="openGame"
+        android:layout_above="@id/score_button"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:text="Help"
@@ -24,7 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/score_button"
-        android:onClick="openHelp"/>
+        android:onClick="openHelp"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:text="Exit"
@@ -32,7 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/help_button"
-        android:onClick="exit"/>
+        android:onClick="exit"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>
