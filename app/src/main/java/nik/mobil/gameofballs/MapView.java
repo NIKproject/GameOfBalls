@@ -47,6 +47,8 @@ public class MapView extends View {
         canvas.drawBitmap(map, null, new Rect(0,0,canvas.getWidth(),canvas.getHeight()), null);
         Bitmap ball= BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
         canvas.drawBitmap(ball, null, new Rect(100,100,100+canvas.getWidth()/13,100+canvas.getHeight()/14), null);
-
+/**
+ *
+ */
     }
 }
