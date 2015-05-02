@@ -42,8 +42,11 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         //super.onDraw(canvas);
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
-        canvas.drawBitmap(bitmap, null, new Rect(180,120,390,330), null);
-        canvas.drawBitmap(bitmap,new Rect(0,0,290,230),new Rect(0,0,300,300),null);
+
+        Bitmap map= BitmapFactory.decodeResource(getResources(),R.drawable.game_map);
+        canvas.drawBitmap(map, null, new Rect(0,0,canvas.getWidth(),canvas.getHeight()), null);
+        Bitmap ball= BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
+        canvas.drawBitmap(ball, null, new Rect(100,100,100+canvas.getWidth()/13,100+canvas.getHeight()/14), null);
+
     }
 }

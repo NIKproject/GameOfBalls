@@ -18,6 +18,14 @@ public class Ball {
         this.posY = posY;
         type=Type.NORMAL;
     }
+    public void Move(int posX)
+    {
+        this.posX=posX;
+    }
 
+    public void Change(Type type)
+    {
+        this.type=type;
+    }
 
 }
