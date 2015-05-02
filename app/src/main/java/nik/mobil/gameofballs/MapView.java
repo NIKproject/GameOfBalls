@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -41,7 +42,8 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         //super.onDraw(canvas);
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.game_of_balls);
-        canvas.drawBitmap(bitmap,0,0,null);
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
+        canvas.drawBitmap(bitmap, null, new Rect(180,120,390,330), null);
+        canvas.drawBitmap(bitmap,new Rect(0,0,290,230),new Rect(0,0,300,300),null);
     }
 }
