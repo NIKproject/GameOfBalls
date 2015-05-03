@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.util.AttributeSet;
@@ -33,6 +34,7 @@ public class MapView extends View {
     private List<Integer> map;
     private int[][] maptiles;
     private Paint paint;
+    private Ball ball;
 
     public MapView(Context context) {
         super(context);
@@ -47,6 +49,7 @@ public class MapView extends View {
     }
 
     private void Init() {
+        ball=new Ball(50,50,30);
 
     }
 
@@ -55,7 +58,7 @@ public class MapView extends View {
         //super.onDraw(canvas);
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.game_map2);
-        canvas.drawBitmap(bitmap, null, new Rect(0, 0, canvas.getWidth(), canvas.getHeight()), null);
+        canvas.drawBitmap(bitmap,new Rect(0,0,100,100) , new Rect(0, 0,canvas.getWidth(), canvas.getHeight()), null);
         Bitmap ball = BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11);
         canvas.drawBitmap(ball, null, new Rect(100, 100, 100 + canvas.getWidth() / 30, 100 + canvas.getHeight() / 30), null);
 
@@ -66,7 +69,7 @@ public class MapView extends View {
         XmlPullParser parser = Xml.newPullParser();
         parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 
-        File iomap = new File("values/map1.xml");
+        File iomap = new File("..assets/map1.xml");
         FileInputStream fis = new FileInputStream(iomap);
 
         parser.setInput(new InputStreamReader(fis));

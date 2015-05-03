@@ -7,15 +7,17 @@ package nik.mobil.gameofballs;
 public class Ball {
     private int posX;
     private int posY;
+    private int size;
     private Type type;
 
     public enum Type{
         HEAVY,NORMAL,LIGHT
     }
 
-    public Ball(int posX, int posY) {
+    public Ball(int posX, int posY, int size) {
         this.posX = posX;
         this.posY = posY;
+        this.size=size;
         type=Type.NORMAL;
     }
     public void Move(int posX)

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 public class LevelSelect_Activity extends Activity {
 
+    private MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
