@@ -5,20 +5,22 @@ package nik.mobil.gameofballs;
  */
 
 public class Ball {
-    private int posX;
-    private int posY;
+    private float posX;
+    private float posY;
+    private float size;
     private Type type;
 
     public enum Type{
         HEAVY,NORMAL,LIGHT
     }
 
-    public Ball(int posX, int posY) {
+    public Ball(float posX, float posY) {
         this.posX = posX;
         this.posY = posY;
+        this.size=30;
         type=Type.NORMAL;
     }
-    public void Move(int posX)
+    public void Move(float posX,float posY)
     {
         this.posX+=posX;
     }

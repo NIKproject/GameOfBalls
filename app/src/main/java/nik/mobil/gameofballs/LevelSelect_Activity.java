@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 public class LevelSelect_Activity extends Activity {
 
+    private MapView mapView;
     private SensorManager sensorManager;
     int x;
     int y;
@@ -23,9 +24,10 @@ public class LevelSelect_Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select_);
         sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
+        mapView=(MapView)findViewById(R.id.view);
         x=0;
         y=0;
-        ball=new Ball(5,5); //majd a pályátó függően kéne
+        //ball=new Ball(5,5); //majd a pályátó függően kéne
 
     }
 
@@ -44,7 +46,8 @@ public class LevelSelect_Activity extends Activity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             float[] values=sensorEvent.values;
-            if(x!=values[0])
+            mapView.BallMove(values[0],values[1]);
+            /*if(x!=values[0])
             {
                 x=(int)values[0];
                 ball.Move(x);
@@ -54,7 +57,7 @@ public class LevelSelect_Activity extends Activity {
                y=(int)values[0];
                //Mapview eltolása föl le
                //Mapview.Move(y);
-            }
+            }*/
 
         }
 
