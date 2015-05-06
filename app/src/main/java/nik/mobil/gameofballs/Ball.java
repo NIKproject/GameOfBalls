@@ -20,7 +20,7 @@ public class Ball {
     }
     public void Move(int posX)
     {
-        this.posX=posX;
+        this.posX+=posX;
     }
 
     public void Change(Type type)

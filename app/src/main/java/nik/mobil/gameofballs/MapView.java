@@ -34,6 +34,7 @@ public class MapView extends View {
     private int[][] maptiles;
     private Paint paint;
 
+
     public MapView(Context context) {
         super(context);
     }
