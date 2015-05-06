@@ -7,6 +7,7 @@
     tools:context="nik.mobil.gameofballs.LevelSelect_Activity">
 
     <nik.mobil.gameofballs.MapView
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
