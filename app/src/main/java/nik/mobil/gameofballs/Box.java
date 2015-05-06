@@ -19,7 +19,7 @@ public class Box extends Subject {
 
     @Override
     public void onDraw(Canvas canvas) {
-        Bitmap bitmap= BitmapFactory.decodeFile("drawable/game_map.png");
+        Bitmap bitmap= BitmapFactory.decodeFile("box.png");
         canvas.drawBitmap(bitmap,posX,posY,null);
     }
 }

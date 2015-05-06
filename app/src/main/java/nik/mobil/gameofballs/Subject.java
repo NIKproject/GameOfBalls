@@ -17,7 +17,21 @@ public abstract class Subject {
         this.size = size;
     }
 
+    public float getPosX(){
+        return posX;
+    }
+
+
+
 
 
     public abstract void onDraw(Canvas canvas);
+
+    public float getPosY() {
+        return posY;
+    }
+
+    public float getSize() {
+        return size;
+    }
 }

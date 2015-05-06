@@ -38,6 +38,7 @@ public class MapView extends View {
     private Ball ball;
     private List<Box> boxes;
     private List<Changer> changers;
+    private Rect mapRect;
 
 
     public MapView(Context context) {
@@ -71,6 +72,7 @@ public class MapView extends View {
                     boxes.add(new Box(i,j,30));
             }
         }
+        mapRect=new Rect(0,0,300,300);
 
     }
 
@@ -170,6 +172,7 @@ public class MapView extends View {
                 ball.Move(x+0.5f,y);
             }
         }
+        invalidate();
 
     }
 
@@ -179,9 +182,15 @@ public class MapView extends View {
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.game_map2);
         canvas.drawBitmap(bitmap,new Rect(10,10,canvas.getWidth(),canvas.getHeight()) , new Rect(0,0,canvas.getWidth()-100,canvas.getHeight()), null);
-        Bitmap ball = BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11);
-        canvas.drawBitmap(ball, null, new Rect(100, 100, 100 + canvas.getWidth() / 30, 100 + canvas.getHeight() / 30), null);
 
+        ball.onDraw(canvas);
+        //Ha a doboz benne van a kirajzolt felületbe akkor kirajzoljuk
+        for(Box item:boxes){
+            if(mapRect.contains((int)item.getPosX(),(int)item.getPosY(),(int)(item.getPosX()+item.getSize()),(int)(item.getPosY()+item.getSize())))
+            {
+                item.onDraw(canvas);
+            }
+        }
     }
 
 

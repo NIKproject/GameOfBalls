@@ -1,5 +1,10 @@
 package nik.mobil.gameofballs;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Rect;
+
 /**
  * Created by Gábor on 2015.05.02..
  */
@@ -46,6 +51,12 @@ public class Ball {
     public void Change(Type type)
     {
         this.type=type;
+    }
+
+    public void onDraw(Canvas canvas)
+    {
+        Bitmap ball = BitmapFactory.decodeFile("drawable/sphere_11.png");
+        canvas.drawBitmap(ball, null, new Rect(100, 100, 100 + canvas.getWidth() / 30, 100 + canvas.getHeight() / 30), null);
     }
 
 }
