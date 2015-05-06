@@ -13,16 +13,22 @@ import android.view.MenuItem;
 
 public class LevelSelect_Activity extends Activity {
 
-    private MapView mapView;
     private SensorManager sensorManager;
+    int x;
+    int y;
+    Ball ball;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select_);
-        mapView=(MapView)findViewById(R.id.view);
         sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
+        x=0;
+        y=0;
+        ball=new Ball(5,5); //majd a pályátó függően kéne
+
     }
+
 
     @Override
     protected void onResume() {
@@ -31,21 +37,32 @@ public class LevelSelect_Activity extends Activity {
                 listener,sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_FASTEST);
 
+
     }
 
     private SensorEventListener listener=new SensorEventListener() {
         @Override
-        public void onSensorChanged(SensorEvent event) {
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            float[] values=sensorEvent.values;
+            if(x!=values[0])
+            {
+                x=(int)values[0];
+                ball.Move(x);
+            }
+            if(y!=values[0])
+            {
+               y=(int)values[0];
+               //Mapview eltolása föl le
+               //Mapview.Move(y);
+            }
 
         }
 
         @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        public void onAccuracyChanged(Sensor sensor, int i) {
 
         }
     };
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -36,6 +36,7 @@ public class MapView extends View {
     private Paint paint;
     private Ball ball;
 
+
     public MapView(Context context) {
         super(context);
     }
