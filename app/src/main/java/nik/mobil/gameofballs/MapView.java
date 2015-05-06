@@ -31,6 +31,7 @@ public class MapView extends View {
 
     private final static int WIDTH = 100;
     private final static int HEIGHT = 500;
+    private static int cellSize=30;
     private List<Integer> map;
     private int[][] maptiles;
     private Paint paint;
@@ -42,6 +43,7 @@ public class MapView extends View {
     public MapView(Context context) {
         super(context);
         Init();
+
     }
 
     public MapView(Context context, AttributeSet attrs) {
@@ -59,6 +61,8 @@ public class MapView extends View {
         /*
         Ide kerül az xml kiolvasasásának kódja, maptile tömb feltöltése
          */
+
+        //létrehozunk annyi box példányt amennyi csak van a pályán
         for (int i=0;i<maptiles.length;i++)//sor
         {
             for(int j=0;j<maptiles[i].length;j++)//oszlop
@@ -77,7 +81,95 @@ public class MapView extends View {
         /*if ütközés egy tárggyal
         ha az doboz akkor eltoljuk, ha changer akkor váltunk, ha tüske akkor gameOver,
          */
-        float leftTop,leftBottom,rightTop,rightBottom;
+        float leftTopX,leftTopY,leftBottomX,leftBottomY,rightTopX,rightTopY,rightBottomX,rightBottomY;
+        leftTopX=ball.getPosX();
+        leftTopY=ball.getPosY();
+        int columnLeftTop= (int) Math.ceil(leftTopX+x/cellSize);
+        int rowLeftTop=(int)Math.ceil(leftTopY+y/cellSize);
+
+        leftBottomX=ball.getPosX();
+        leftBottomY=ball.getPosY()+ball.getSize();
+        int columnLeftBottom= (int) Math.ceil(leftBottomX+x/cellSize);
+        int rowLeftBottom=(int)Math.ceil(leftBottomY+y/cellSize);
+
+        rightTopX=ball.getPosX()+ball.getSize();
+        rightTopY=ball.getPosY();
+        int columnRightTop= (int) Math.ceil(rightTopX+x/cellSize);
+        int rowRightTop=(int)Math.ceil(rightTopY+y/cellSize);
+
+        rightBottomX=ball.getPosX()+ball.getSize();
+        rightBottomY=ball.getPosY()+ball.getSize();
+        int columnRightBottom= (int) Math.ceil(rightBottomX+x/cellSize);
+        int rowRightBottom=(int)Math.ceil(rightBottomY+y/cellSize);
+
+        //nem tudom hogy vannak az értékek majd tapasztaljuk
+        //ha a gyorsulásmérő x pozitív, jobbra döntünk, negatív=balra
+        //ha y pozitív előre megyünk, ha negatív akkor hátra döntjük magunk felé
+        if(y>0)//előre megyünk
+        {
+            //csak a felső szomszéd cellákat kell ellenőrizni balfelső csúcsnál, jobbfelső csúcs
+            if((maptiles[rowLeftTop][columnLeftTop]==2 || maptiles[rowRightTop][columnRightTop]==2) && ball.getType()==Type.LIGHT)//tüske
+            {
+                //Tüskébe mentünk strand labdával,GameOver nem lépünk
+            }
+            else if((maptiles[rowLeftTop][columnLeftTop]==5 || maptiles[rowRightTop][columnRightTop]==5)){//Fal
+                //Falba ütköztünk nem tudunk arra lépni
+                return;
+            }
+            else if((maptiles[rowLeftTop][columnLeftTop]==7 || maptiles[rowRightTop][columnRightTop]==7) && ball.getType()==Type.HEAVY){
+                //Mágneses mezőre léptünk és acél golyónk van, elkezd húzni jobbra
+                ball.Move(x+0.5f,y);
+            }
+        }
+        else
+        {
+            //lefele megyünk, alsó szomszéd cellák
+            if((maptiles[rowLeftBottom][columnLeftBottom]==2 || maptiles[rowRightBottom][columnRightBottom]==2) && ball.getType()==Type.LIGHT)//tüske
+            {
+                //Tüskébe mentünk strand labdával,GameOver nem lépünk
+            }
+            else if((maptiles[rowLeftBottom][columnLeftBottom]==5 || maptiles[rowRightBottom][columnRightBottom]==5)){//Fal
+                //Falba ütköztünk nem tudunk arra lépni
+                return;
+            }
+            else if((maptiles[rowLeftBottom][columnLeftBottom]==7 || maptiles[rowRightBottom][columnRightBottom]==7) && ball.getType()==Type.HEAVY){
+                //Mágneses mezőre léptünk és acél golyónk van, elkezd húzni jobbra
+                ball.Move(x+0.5f,y);
+            }
+        }
+
+        if(x>0)//jobbra
+        {
+            //jobbra megyünk, jobb oldali szomszéd cellák
+            if((maptiles[rowRightBottom][columnRightBottom]==2 || maptiles[rowRightTop][columnRightTop]==2) && ball.getType()==Type.LIGHT)//tüske
+            {
+                //Tüskébe mentünk strand labdával,GameOver nem lépünk
+            }
+            else if((maptiles[rowRightBottom][columnRightBottom]==5 || maptiles[rowRightTop][columnRightTop]==5)){//Fal
+                //Falba ütköztünk nem tudunk arra lépni
+                return;
+            }
+            else if((maptiles[rowRightBottom][columnRightBottom]==7 || maptiles[rowRightTop][columnRightTop]==7) && ball.getType()==Type.HEAVY){
+                //Mágneses mezőre léptünk és acél golyónk van, elkezd húzni jobbra
+                ball.Move(x+0.5f,y);
+            }
+        }
+        else
+        {
+            //balra megyünk, bal oldali szomszéd cellák
+            if((maptiles[rowLeftBottom][columnLeftBottom]==2 || maptiles[rowLeftTop][columnLeftTop]==2) && ball.getType()==Type.LIGHT)//tüske
+            {
+                //Tüskébe mentünk strand labdával,GameOver nem lépünk
+            }
+            else if((maptiles[rowLeftBottom][columnLeftBottom]==5 || maptiles[rowLeftTop][columnLeftTop]==5)){//Fal
+                //Falba ütköztünk nem tudunk arra lépni
+                return;
+            }
+            else if((maptiles[rowLeftBottom][columnLeftBottom]==7 || maptiles[rowLeftTop][columnLeftTop]==7) && ball.getType()==Type.HEAVY){
+                //Mágneses mezőre léptünk és acél golyónk van, elkezd húzni jobbra
+                ball.Move(x+0.5f,y);
+            }
+        }
 
     }
 
