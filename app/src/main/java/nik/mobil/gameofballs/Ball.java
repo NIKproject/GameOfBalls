@@ -10,6 +10,10 @@ public class Ball {
     private float size;
     private Type type;
 
+    public Type getType() {
+        return type;
+    }
+
     public enum Type{
         HEAVY,NORMAL,LIGHT
     }

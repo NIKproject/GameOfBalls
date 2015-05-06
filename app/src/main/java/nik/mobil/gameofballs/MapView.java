@@ -35,10 +35,13 @@ public class MapView extends View {
     private int[][] maptiles;
     private Paint paint;
     private Ball ball;
+    private List<Box> boxes;
+    private List<Changer> changers;
 
 
     public MapView(Context context) {
         super(context);
+        Init();
     }
 
     public MapView(Context context, AttributeSet attrs) {
@@ -52,18 +55,29 @@ public class MapView extends View {
     private void Init() {
         maptiles=new int[30][30];
         ball=new Ball(50,50);
+
         /*
         Ide kerül az xml kiolvasasásának kódja, maptile tömb feltöltése
          */
+        for (int i=0;i<maptiles.length;i++)//sor
+        {
+            for(int j=0;j<maptiles[i].length;j++)//oszlop
+            {
+                if(maptiles[i][j]==1)
+                    boxes.add(new Box(i,j,30));
+            }
+        }
 
     }
 
     public void BallMove(float x,float y)
     {
         ball.Move(x,y);
+
         /*if ütközés egy tárggyal
         ha az doboz akkor eltoljuk, ha changer akkor váltunk, ha tüske akkor gameOver,
          */
+        float leftTop,leftBottom,rightTop,rightBottom;
 
     }
 
