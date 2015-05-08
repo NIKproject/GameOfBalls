@@ -180,17 +180,19 @@ public class MapView extends View {
     protected void onDraw(Canvas canvas) {
         //super.onDraw(canvas);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.game_map2);
-        canvas.drawBitmap(bitmap,new Rect(10,10,canvas.getWidth(),canvas.getHeight()) , new Rect(0,0,canvas.getWidth()-100,canvas.getHeight()), null);
+        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.game_map2);
+        //canvas.drawBitmap(bitmap,new Rect(10,10,canvas.getWidth(),canvas.getHeight()) , new Rect(0,0,canvas.getWidth()-100,canvas.getHeight()), null);
 
-        ball.onDraw(canvas);
+        //ball.onDraw(canvas);
         //Ha a doboz benne van a kirajzolt felületbe akkor kirajzoljuk
-        for(Box item:boxes){
+        /*for(Box item:boxes){
             if(mapRect.contains((int)item.getPosX(),(int)item.getPosY(),(int)(item.getPosX()+item.getSize()),(int)(item.getPosY()+item.getSize())))
             {
                 item.onDraw(canvas);
             }
-        }
+        }*/
+        Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
+        canvas.drawBitmap(box,new Rect(190,240,190+canvas.getWidth(),240+canvas.getHeight()),new Rect(0,0,canvas.getWidth(),canvas.getHeight()),null);
     }
 
 

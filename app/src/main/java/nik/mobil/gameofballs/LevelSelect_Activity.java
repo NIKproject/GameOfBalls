@@ -46,7 +46,8 @@ public class LevelSelect_Activity extends Activity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             float[] values=sensorEvent.values;
-            mapView.BallMove(values[0],values[1]);
+            //mapView.BallMove(values[0],values[1]);
+            //BallMoveban van valami hiba féleség ami a program leáálását jelentiát kell nézni
             /*if(x!=values[0])
             {
                 x=(int)values[0];

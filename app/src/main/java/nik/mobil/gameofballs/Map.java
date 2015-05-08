@@ -29,5 +29,6 @@ public class Map {
 
     public void onDraw(Canvas canvas){
         //használjuk az offsetet a térkép eltolásához hogy melyik felületet látjuk épp és mit rajzolunk ki róla
+
     }
 }

@@ -55,8 +55,8 @@ public class Ball {
 
     public void onDraw(Canvas canvas)
     {
-        Bitmap ball = BitmapFactory.decodeFile("drawable/sphere_11.png");
-        canvas.drawBitmap(ball, null, new Rect(100, 100, 100 + canvas.getWidth() / 30, 100 + canvas.getHeight() / 30), null);
+        //Bitmap ball = BitmapFactory.decodeResource(getResources(),)
+        //canvas.drawBitmap(ball, null, new Rect(100, 100, 100 + canvas.getWidth() / 30, 100 + canvas.getHeight() / 30), null);
     }
 
 }
