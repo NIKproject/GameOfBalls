@@ -1,5 +1,6 @@
 package nik.mobil.gameofballs;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -45,6 +46,7 @@ public class Ball {
         this.size=ball.getWidth();
         type=Type.NORMAL;
         this.ball=ball;
+        //golyó középső ponja a kirajzolás miatt kell
         ballMiddleX=(int)(posX+size/2);
         ballMiddleY=(int)(posY+size/2);
     }
@@ -56,14 +58,29 @@ public class Ball {
 
     public void Change(Type type)
     {
-        this.type=type;
+        if(type!=this.type)
+        {
+            this.type=type;
+            switch(type)
+            {
+                case NORMAL:
+                    ball=BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.sphere_11);
+                    break;
+                case HEAVY:
+                    ball=BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.sphere_11);
+                    break;
+                case LIGHT:
+                    ball=BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.sphere_11);
+                    break;
+            }
+
+        }
+
     }
 
     public void onDraw(Canvas canvas,int viewWidth,int viewHeight)
     {
-        //Bitmap ball = BitmapFactory.decodeResource(getResources(),)
-        //canvas.drawBitmap(ball, null, new Rect(100, 100, 100 + canvas.getWidth() / 30, 100 + canvas.getHeight() / 30), null);
-        //Bitmap ball=BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
+        //a golyó mindig középen
         canvas.drawBitmap(ball,null,new Rect(viewWidth/2-ball.getWidth()/2,viewHeight/2-ball.getHeight()/2,viewWidth/2+ball.getWidth()/2,viewHeight/2+ball.getHeight()/2),null);
     }
 

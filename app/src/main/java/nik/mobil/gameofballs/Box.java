@@ -8,8 +8,8 @@ import android.graphics.Canvas;
  * Created by Gábor on 2015.05.02..
  */
 public class Box extends Subject {
-    public Box(float posX, float posY,float size) {
-        super(posX, posY,size);
+    public Box(float posX, float posY,float size,Bitmap picture) {
+        super(posX, posY,size,picture);
     }
 
     public void Move(float x,float y){
@@ -19,7 +19,6 @@ public class Box extends Subject {
 
     @Override
     public void onDraw(Canvas canvas) {
-        Bitmap bitmap= BitmapFactory.decodeFile("box.png");
-        canvas.drawBitmap(bitmap,posX,posY,null);
+        canvas.drawBitmap(picture,posX,posY,null);
     }
 }
