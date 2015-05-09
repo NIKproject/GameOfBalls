@@ -17,8 +17,19 @@ public class Box extends Subject {
         posY+=y;
     }
 
+    public int[] LocationOnScreen(int ballX,int ballY)
+    {
+        int[] pos=new int[2];
+        pos[0]=(int)(posX-ballX);
+        pos[1]=(int)(posY-ballY);
+        return pos;
+    }
+
     @Override
-    public void onDraw(Canvas canvas) {
-        canvas.drawBitmap(picture,posX,posY,null);
+    public void onDraw(Canvas canvas,float ballX,float ballY,float ballXOnScreen,float ballYOnScreen) {
+
+        int POSX=(int)(ballXOnScreen+(posX-ballX));
+        int POSY=(int)(ballYOnScreen+(posY-ballY));
+        canvas.drawBitmap(picture,POSX,POSY,null);
     }
 }

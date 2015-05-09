@@ -12,6 +12,7 @@ public abstract class Subject {
     protected float posY;
     protected float size;
     protected Bitmap picture;
+    protected int[] locscreen;
 
     public Subject(float posX, float posY, float size,Bitmap picture) {
         this.posX = posX;
@@ -28,7 +29,7 @@ public abstract class Subject {
 
 
 
-    public abstract void onDraw(Canvas canvas);
+    public abstract void onDraw(Canvas canvas,float ballX,float ballY,float ballXOnScreen,float ballYOnScreen);
 
     public float getPosY() {
         return posY;
