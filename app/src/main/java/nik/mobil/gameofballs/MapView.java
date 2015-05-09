@@ -66,7 +66,7 @@ public class MapView extends View {
     private void Init(int width,int height) throws IOException, XmlPullParserException {
         maptiles=new int[45][28];
         Bitmap ballBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
-        ball=new Ball(500,465,ballBitmap);
+        ball=new Ball(280,370,ballBitmap);
         Bitmap backGround=BitmapFactory.decodeResource(getResources(),R.drawable.map2_final);
         //Bitmap asd=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
         mapReal=new Map(backGround);
@@ -88,15 +88,17 @@ public class MapView extends View {
             {
                 String tag=xpp.getName();
                 if(TAG_ITEM.equals(tag)) {
+
+                    if(j<=44 && i<=27){
+                        maptiles[j][i]=Integer.parseInt(xpp.getAttributeValue(0));
+                    }
                     i++;
-                    if (i!=0 && i % 28 == 0)
+                    if ( i % 28 == 0)
                     {
                         i=0;
                         j++;
                     }
-                    if(j<=44 && i<=27){
-                        maptiles[j][i]=Integer.parseInt(xpp.getAttributeValue(0));
-                    }
+
 
 
                 }
@@ -104,36 +106,17 @@ public class MapView extends View {
             }
 
         }
-        /*while(eventType!=XmlPullParser.END_TAG){
-            if(eventType==XmlPullParser.START_TAG && xpp.getName()=="tile") {
-                i++;
-                if(i%29==0){
-                    i=0;
-                    j++;
-                }
-                int tiletype=Integer.parseInt(xpp.getAttributeValue(null,"gid"));
-                maptiles[j][i]=tiletype;
-            }
-            eventType=xpp.next();
-        }*/
-
-
-
-
-        /*
-        Ide kerül az xml kiolvasasásának kódja, maptile tömb feltöltése
-         */
-
+        Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box1);
         //létrehozunk annyi box példányt amennyi csak van a pályán
-        /*for (int i=0;i<maptiles.length;i++)//sor
+        for (int sor=0;i<maptiles.length;i++)//sor
         {
-            for(int j=0;j<maptiles[i].length;j++)//oszlop
+            for(int oszlop=0;j<maptiles[sor].length;j++)//oszlop
             {
-                if(maptiles[i][j]==1)
-                    boxes.add(new Box(i,j,30));
+                if(maptiles[sor][oszlop]==1)
+                    boxes.add(new Box(oszlop*30,sor*30,30,box));
             }
         }
-        mapRect=new Rect(0,0,300,300);*/
+
 
     }
 
@@ -268,22 +251,17 @@ public class MapView extends View {
         mapReal.onDraw(canvas,mapRect,drawRect);
         //Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box);
         //canvas.drawBitmap(box,new Rect(0,0,30,30),new Rect(0,0,this.getWidth(),this.getHeight()),null);
-        /*for(Box item:boxes){
+        for(Box item:boxes){
             if(mapRect.contains((int)item.getPosX(),(int)item.getPosY(),(int)(item.getPosX()+item.getSize()),(int)(item.getPosY()+item.getSize())))
             {
                 item.onDraw(canvas);
             }
-        }*/
+        }
         ball.onDraw(canvas,this.getWidth(),this.getHeight());
 
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        width=w;
-        height=h;
-    }
+
 
     public void ParseMapFromXml() throws XmlPullParserException, IOException {
         XmlPullParser parser = Xml.newPullParser();
