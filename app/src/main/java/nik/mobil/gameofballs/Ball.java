@@ -18,6 +18,8 @@ public class Ball {
     private float size;
     private Type type;
     private Bitmap ball;
+    private int ballMiddleX;
+    private int ballMiddleY;
 
     public Type getType() {
         return type;
@@ -40,9 +42,11 @@ public class Ball {
     public Ball(float posX, float posY,Bitmap ball ) {
         this.posX = posX;
         this.posY = posY;
-        this.size=30;
+        this.size=ball.getWidth();
         type=Type.NORMAL;
         this.ball=ball;
+        ballMiddleX=(int)(posX+size/2);
+        ballMiddleY=(int)(posY+size/2);
     }
     public void Move(float posX,float posY)
     {
@@ -63,4 +67,11 @@ public class Ball {
         canvas.drawBitmap(ball,null,new Rect(viewWidth/2-ball.getWidth()/2,viewHeight/2-ball.getHeight()/2,viewWidth/2+ball.getWidth()/2,viewHeight/2+ball.getHeight()/2),null);
     }
 
+    public int getBallMiddleX() {
+        return ballMiddleX;
+    }
+
+    public int getBallMiddleY() {
+        return ballMiddleY;
+    }
 }

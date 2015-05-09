@@ -35,8 +35,9 @@ public class Map {
     }
 
 
-    public void onDraw(Canvas canvas){
+    public void onDraw(Canvas canvas,Rect mapVisibleRect){
         //használjuk az offsetet a térkép eltolásához hogy melyik felületet látjuk épp és mit rajzolunk ki róla
         canvas.drawBitmap(background,mapVisibleRect,new Rect(0,0,canvas.getWidth(),canvas.getHeight()),null);
+
     }
 }

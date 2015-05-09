@@ -40,30 +40,38 @@ public class MapView extends View {
     private List<Changer> changers;
     private Rect mapRect;
     private Map mapReal;
+    private int width;
+    private int height;
 
 
     public MapView(Context context) {
         super(context);
-        Init();
+        Init(width, height);
 
     }
 
     public MapView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Init();
+        Init(width, height);
     }
 
     public MapView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Init();
+        Init(width, height);
     }
 
-    private void Init() {
+    private void Init(int width,int height) {
         maptiles=new int[30][30];
         Bitmap ballBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
-        ball=new Ball(50,50,ballBitmap);
+        ball=new Ball(215,156,ballBitmap);
         Bitmap backGround=BitmapFactory.decodeResource(getResources(),R.drawable.map1_nobox);
-        mapReal=new Map(new Rect(0,0,this.getWidth(),this.getHeight()),0,0,backGround);
+        mapReal=new Map(new Rect((int)(ball.getPosX()-width/2+ball.getSize()/2),
+                (int)(ball.getPosY()-height/2+ball.getSize()/2),
+                (int)(ball.getPosX()+width/2-ball.getSize()/2),
+                (int)(ball.getPosY()+height/2-ball.getSize()/2)),
+                0,
+                0,
+                backGround);
 
         /*
         Ide kerül az xml kiolvasasásának kódja, maptile tömb feltöltése
@@ -84,11 +92,12 @@ public class MapView extends View {
 
     public void BallMove(float x,float y)
     {
-        ball.Move(x,y);
+        //ball.Move(x,y);
 
         /*if ütközés egy tárggyal
         ha az doboz akkor eltoljuk, ha changer akkor váltunk, ha tüske akkor gameOver,
          */
+        /*
         float leftTopX,leftTopY,leftBottomX,leftBottomY,rightTopX,rightTopY,rightBottomX,rightBottomY;
         leftTopX=ball.getPosX();
         leftTopY=ball.getPosY();
@@ -179,6 +188,7 @@ public class MapView extends View {
             }
         }
         invalidate();
+        */
 
     }
 
@@ -200,10 +210,27 @@ public class MapView extends View {
         //Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
         //Bitmap background=BitmapFactory.decodeResource(getResources(),R.drawable.map1_nobox);
         //canvas.drawBitmap(background,new Rect(190,240,190+canvas.getWidth(),240+canvas.getHeight()),new Rect(0,0,canvas.getWidth(),canvas.getHeight()),null);
-        mapReal.onDraw(canvas);
+        /*new Rect((int)(ball.getPosX()-width/2+ball.getSize()/2),
+                (int)(ball.getPosY()-height/2+ball.getSize()/2),
+                (int)(ball.getPosX()+width/2-ball.getSize()/2),
+                (int)(ball.getPosY()+height/2-ball.getSize()/2)*/
+        /*mapRect=new Rect((int)(ball.getPosX()+ball.getSize()/2-canvas.getWidth()/2),
+                (int)(ball.getPosY()+ball.getSize()/2-canvas.getHeight()/2),
+                (int)(ball.getPosX()-ball.getSize()/2+canvas.getWidth()/2),
+                (int)(ball.getPosY()-ball.getSize()/2-canvas.getHeight()/2)
+        );*/
+        mapRect=new Rect(0,0,canvas.getWidth(),canvas.getHeight());
+        mapRect=new Rect(ball.getBallMiddleX()-canvas.getWidth(),ball.getBallMiddleY()-canvas.getHeight(),ball.getBallMiddleX()+canvas.getWidth(),ball.getBallMiddleY()+canvas.getHeight());
+        mapReal.onDraw(canvas,mapRect);
         ball.onDraw(canvas,this.getWidth(),this.getHeight());
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        width=w;
+        height=h;
+    }
 
     public void ParseMapFromXml() throws XmlPullParserException, IOException {
         XmlPullParser parser = Xml.newPullParser();
