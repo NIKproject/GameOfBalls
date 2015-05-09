@@ -39,6 +39,7 @@ public class MapView extends View {
     private List<Box> boxes;
     private List<Changer> changers;
     private Rect mapRect;
+    private Map mapReal;
 
 
     public MapView(Context context) {
@@ -49,22 +50,27 @@ public class MapView extends View {
 
     public MapView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        Init();
     }
 
     public MapView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        Init();
     }
 
     private void Init() {
         maptiles=new int[30][30];
-        ball=new Ball(50,50);
+        Bitmap ballBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
+        ball=new Ball(50,50,ballBitmap);
+        Bitmap backGround=BitmapFactory.decodeResource(getResources(),R.drawable.map1_nobox);
+        mapReal=new Map(new Rect(0,0,this.getWidth(),this.getHeight()),0,0,backGround);
 
         /*
         Ide kerül az xml kiolvasasásának kódja, maptile tömb feltöltése
          */
 
         //létrehozunk annyi box példányt amennyi csak van a pályán
-        for (int i=0;i<maptiles.length;i++)//sor
+        /*for (int i=0;i<maptiles.length;i++)//sor
         {
             for(int j=0;j<maptiles[i].length;j++)//oszlop
             {
@@ -72,7 +78,7 @@ public class MapView extends View {
                     boxes.add(new Box(i,j,30));
             }
         }
-        mapRect=new Rect(0,0,300,300);
+        mapRect=new Rect(0,0,300,300);*/
 
     }
 
@@ -191,8 +197,11 @@ public class MapView extends View {
                 item.onDraw(canvas);
             }
         }*/
-        Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
-        canvas.drawBitmap(box,new Rect(190,240,190+canvas.getWidth(),240+canvas.getHeight()),new Rect(0,0,canvas.getWidth(),canvas.getHeight()),null);
+        //Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
+        //Bitmap background=BitmapFactory.decodeResource(getResources(),R.drawable.map1_nobox);
+        //canvas.drawBitmap(background,new Rect(190,240,190+canvas.getWidth(),240+canvas.getHeight()),new Rect(0,0,canvas.getWidth(),canvas.getHeight()),null);
+        mapReal.onDraw(canvas);
+        ball.onDraw(canvas,this.getWidth(),this.getHeight());
     }
 
 

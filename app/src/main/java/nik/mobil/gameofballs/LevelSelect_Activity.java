@@ -42,6 +42,12 @@ public class LevelSelect_Activity extends Activity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(listener);
+    }
+
     private SensorEventListener listener=new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
