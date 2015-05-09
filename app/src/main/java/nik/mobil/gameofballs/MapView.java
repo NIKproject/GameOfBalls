@@ -32,38 +32,29 @@ import java.util.List;
  */
 public class MapView extends View {
 
-    private final static int WIDTH = 100;
-    private final static int HEIGHT = 500;
-    private static int cellSize=30;
-    private List<Integer> map;
     private int[][] maptiles;
-    private Paint paint;
     private Ball ball;
     private List<Box> boxes;
-    private List<Changer> changers;
     private Rect mapRect;
     private Map mapReal;
-    private int width;
-    private int height;
-
 
     public MapView(Context context) throws IOException, XmlPullParserException {
         super(context);
-        Init(width, height);
+        Init();
 
     }
 
     public MapView(Context context, AttributeSet attrs) throws IOException, XmlPullParserException {
         super(context, attrs);
-        Init(width, height);
+        Init();
     }
 
     public MapView(Context context, AttributeSet attrs, int defStyleAttr) throws IOException, XmlPullParserException {
         super(context, attrs, defStyleAttr);
-        Init(width, height);
+        Init();
     }
 
-    private void Init(int width,int height) throws IOException, XmlPullParserException {
+    private void Init() throws IOException, XmlPullParserException {
         maptiles=new int[45][28];
         Bitmap ballBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
         ball=new Ball(280,370,ballBitmap);
@@ -71,7 +62,7 @@ public class MapView extends View {
         //Bitmap asd=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
         mapReal=new Map(backGround);
 
-        Resources res=getResources();
+        /*Resources res=getResources();
         XmlResourceParser xpp=res.getXml(R.xml.map2_final);
 
         int eventType=xpp.getEventType();
@@ -105,17 +96,17 @@ public class MapView extends View {
 
             }
 
-        }
-        Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box1);
+        }*/
+        //Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box1);
         //létrehozunk annyi box példányt amennyi csak van a pályán
-        for (int sor=0;i<maptiles.length;i++)//sor
+        /*for (int sor=0;i<maptiles.length;i++)//sor
         {
             for(int oszlop=0;j<maptiles[sor].length;j++)//oszlop
             {
                 if(maptiles[sor][oszlop]==1)
                     boxes.add(new Box(oszlop*30,sor*30,30,box));
             }
-        }
+        }*/
 
 
     }
@@ -263,7 +254,7 @@ public class MapView extends View {
 
 
 
-    public void ParseMapFromXml() throws XmlPullParserException, IOException {
+    /*public void ParseMapFromXml() throws XmlPullParserException, IOException {
         XmlPullParser parser = Xml.newPullParser();
         parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 
@@ -348,6 +339,6 @@ public class MapView extends View {
             z++;
 
         }
-    }
+    }*/
 
 }
