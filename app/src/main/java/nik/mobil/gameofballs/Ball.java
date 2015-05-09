@@ -67,7 +67,7 @@ public class Ball {
                     ball=BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.sphere_11);
                     break;
                 case HEAVY:
-                    ball=BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.sphere_11);
+                    ball=BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.sphere_00);
                     break;
                 case LIGHT:
                     ball=BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.sphere_11);
