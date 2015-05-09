@@ -9,8 +9,8 @@ import android.graphics.Paint;
  * Created by Gábor on 2015.05.02..
  */
 public class Changer extends Subject {
-    public Changer(float posX, float posY,float size) {
-        super(posX, posY,size);
+    public Changer(float posX, float posY,float size,Bitmap picture) {
+        super(posX, posY,size,picture);
     }
 
     @Override

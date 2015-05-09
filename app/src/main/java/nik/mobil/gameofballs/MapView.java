@@ -1,6 +1,8 @@
 package nik.mobil.gameofballs;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.util.AttributeSet;
 import android.util.Xml;
 import android.view.View;
@@ -44,29 +47,77 @@ public class MapView extends View {
     private int height;
 
 
-    public MapView(Context context) {
+    public MapView(Context context) throws IOException, XmlPullParserException {
         super(context);
         Init(width, height);
 
     }
 
-    public MapView(Context context, AttributeSet attrs) {
+    public MapView(Context context, AttributeSet attrs) throws IOException, XmlPullParserException {
         super(context, attrs);
         Init(width, height);
     }
 
-    public MapView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MapView(Context context, AttributeSet attrs, int defStyleAttr) throws IOException, XmlPullParserException {
         super(context, attrs, defStyleAttr);
         Init(width, height);
     }
 
-    private void Init(int width,int height) {
-        maptiles=new int[30][30];
+    private void Init(int width,int height) throws IOException, XmlPullParserException {
+        maptiles=new int[45][28];
         Bitmap ballBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
         ball=new Ball(500,465,ballBitmap);
         Bitmap backGround=BitmapFactory.decodeResource(getResources(),R.drawable.map2_final);
         //Bitmap asd=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
         mapReal=new Map(backGround);
+
+        Resources res=getResources();
+        XmlResourceParser xpp=res.getXml(R.xml.map2_final);
+
+        int eventType=xpp.getEventType();
+        int i=0,j=0;
+        String asd=xpp.getName();
+        int db=0;
+        boolean stop=false;
+        int event;
+        String TAG_ITEM="tile";
+        while((event=xpp.next())!=XmlPullParser.END_DOCUMENT)
+        {
+
+            if(event==XmlPullParser.START_TAG)
+            {
+                String tag=xpp.getName();
+                if(TAG_ITEM.equals(tag)) {
+                    i++;
+                    if (i!=0 && i % 28 == 0)
+                    {
+                        i=0;
+                        j++;
+                    }
+                    if(j<=44 && i<=27){
+                        maptiles[j][i]=Integer.parseInt(xpp.getAttributeValue(0));
+                    }
+
+
+                }
+
+            }
+
+        }
+        /*while(eventType!=XmlPullParser.END_TAG){
+            if(eventType==XmlPullParser.START_TAG && xpp.getName()=="tile") {
+                i++;
+                if(i%29==0){
+                    i=0;
+                    j++;
+                }
+                int tiletype=Integer.parseInt(xpp.getAttributeValue(null,"gid"));
+                maptiles[j][i]=tiletype;
+            }
+            eventType=xpp.next();
+        }*/
+
+
 
 
         /*
@@ -217,12 +268,12 @@ public class MapView extends View {
         mapReal.onDraw(canvas,mapRect,drawRect);
         //Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box);
         //canvas.drawBitmap(box,new Rect(0,0,30,30),new Rect(0,0,this.getWidth(),this.getHeight()),null);
-        for(Box item:boxes){
+        /*for(Box item:boxes){
             if(mapRect.contains((int)item.getPosX(),(int)item.getPosY(),(int)(item.getPosX()+item.getSize()),(int)(item.getPosY()+item.getSize())))
             {
                 item.onDraw(canvas);
             }
-        }
+        }*/
         ball.onDraw(canvas,this.getWidth(),this.getHeight());
 
     }
