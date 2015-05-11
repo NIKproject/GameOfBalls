@@ -13,7 +13,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.util.AttributeSet;
-import android.util.Xml;
 import android.view.View;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -55,15 +54,18 @@ public class MapView extends View {
     }
 
     private void Init() throws IOException, XmlPullParserException {
-        maptiles=new int[45][28];
-        Bitmap ballBitmap=BitmapFactory.decodeResource(getResources(),R.drawable.sphere_11);
-        ball=new Ball(280,370,ballBitmap);
-        Bitmap backGround=BitmapFactory.decodeResource(getResources(),R.drawable.map2_final);
+        maptiles = new int[45][28];
+        Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11);
+        ball = new Ball(280, 370, ballBitmap);
+        Bitmap backGround = BitmapFactory.decodeResource(getResources(), R.drawable.map2_final);
         //Bitmap asd=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
-        mapReal=new Map(backGround);
+        mapReal = new Map(backGround);
 
-        /*Resources res=getResources();
-        XmlResourceParser xpp=res.getXml(R.xml.map2_final);
+        Resources res = getResources();
+        String buzi = "@map2_final/map2";
+      /*  XmlResourceParser xpp=res.getXml(map2_final.xml);
+
+
 
         int eventType=xpp.getEventType();
         int i=0,j=0;
@@ -94,12 +96,13 @@ public class MapView extends View {
 
                 }
 
-            }
+            }*/
 
-        }*/
-        //Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box1);
-        //létrehozunk annyi box példányt amennyi csak van a pályán
-        /*for (int sor=0;i<maptiles.length;i++)//sor
+    }
+
+    Bitmap box = BitmapFactory.decodeResource(getResources(), R.drawable.box);
+    //létrehozunk annyi box példányt amennyi csak van a pályán
+       /* for (int sor=0;i<maptiles.length;i++)//sor
         {
             for(int oszlop=0;j<maptiles[sor].length;j++)//oszlop
             {
@@ -109,7 +112,7 @@ public class MapView extends View {
         }*/
 
 
-    }
+
 
     public void BallMove(float x,float y)
     {
@@ -240,14 +243,15 @@ public class MapView extends View {
         Rect drawRect=new Rect(0,0,getWidth(),getHeight());
 
         mapReal.onDraw(canvas,mapRect,drawRect);
-        //Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box);
+        Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box);
+
         //canvas.drawBitmap(box,new Rect(0,0,30,30),new Rect(0,0,this.getWidth(),this.getHeight()),null);
-        for(Box item:boxes){
+        /*for(Box item:boxes){
             if(mapRect.contains((int)item.getPosX(),(int)item.getPosY(),(int)(item.getPosX()+item.getSize()),(int)(item.getPosY()+item.getSize())))
             {
                 item.onDraw(canvas);
             }
-        }
+        }*/
         ball.onDraw(canvas,this.getWidth(),this.getHeight());
 
     }
