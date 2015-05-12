@@ -1,6 +1,7 @@
 package nik.mobil.gameofballs;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -27,6 +28,7 @@ public class LevelSelect_Activity extends Activity {
         mapView=(MapView)findViewById(R.id.view);
         x=0;
         y=0;
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //ball=new Ball(5,5); //majd a pályátó függően kéne
 
     }
@@ -52,7 +54,7 @@ public class LevelSelect_Activity extends Activity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             float[] values=sensorEvent.values;
-            mapView.BallMove(values[0],values[1]);
+            mapView.BallMove(values[0],-values[1]);
             //BallMoveban van valami hiba féleség ami a program leáálását jelentiát kell nézni
             /*if(x!=values[0])
             {
