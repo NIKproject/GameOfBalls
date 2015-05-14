@@ -39,7 +39,7 @@ public class LevelSelect_Activity extends Activity {
         super.onResume();
         sensorManager.registerListener(
                 listener,sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_FASTEST);
+                SensorManager.SENSOR_DELAY_GAME);
 
 
     }
@@ -55,6 +55,7 @@ public class LevelSelect_Activity extends Activity {
         public void onSensorChanged(SensorEvent sensorEvent) {
             float[] values=sensorEvent.values;
             mapView.BallMove(values[0],-values[1]);
+
             //BallMoveban van valami hiba féleség ami a program leáálását jelentiát kell nézni
             /*if(x!=values[0])
             {

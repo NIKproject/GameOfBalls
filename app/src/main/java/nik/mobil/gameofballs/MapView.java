@@ -1,6 +1,7 @@
 package nik.mobil.gameofballs;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -44,6 +46,7 @@ public class MapView extends View {
     float nullY;
     private int mapWidth;
     private int mapHeight;
+    Ball ball2;
 
     public MapView(Context context) throws IOException, XmlPullParserException {
         super(context);
@@ -63,59 +66,58 @@ public class MapView extends View {
     }
 
     private void Init() throws IOException, XmlPullParserException {
-        first=true;
+        first = true;
         maptiles = new int[45][28];
         Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11);
-        ball = new Ball(550, 370, ballBitmap,(float)getWidth()/28);
+
+        ball = new Ball(/*12*35, 10*35*/0,0, ballBitmap, (float) getWidth() / 28);
+        ball2 = new Ball(13*35,35*35,ballBitmap,(float)getWidth()/28);
         Bitmap backGround = BitmapFactory.decodeResource(getResources(), R.drawable.map2_final);
 
-       // mapWidth=backGround.getWidth();
+        // mapWidth=backGround.getWidth();
         //mapHeight=backGround.getHeight();
 
         //Bitmap asd=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
         mapReal = new Map(backGround);
 
+
         Resources res = getResources();
-        String buzi = "@map2_final/map2";
-      /*  XmlResourceParser xpp=res.getXml(map2_final.xml);
 
+        //XmlResourceParser xpp = getContext().getAssets().openXmlResourceParser("maps/map2_final.xml");
+        XmlResourceParser xpp = getResources().getXml(R.xml.map2_final);
 
-
-        int eventType=xpp.getEventType();
-        int i=0,j=0;
-        String asd=xpp.getName();
-        int db=0;
-        boolean stop=false;
+        int eventType = xpp.getEventType();
+        int i = 0, j = 0;
+        String asd = xpp.getName();
+        int db = 0;
+        boolean stop = false;
         int event;
-        String TAG_ITEM="tile";
-        while((event=xpp.next())!=XmlPullParser.END_DOCUMENT)
-        {
+        String TAG_ITEM = "tile";
+        while ((event = xpp.next()) != XmlPullParser.END_DOCUMENT) {
 
-            if(event==XmlPullParser.START_TAG)
-            {
-                String tag=xpp.getName();
-                if(TAG_ITEM.equals(tag)) {
+            if (event == XmlPullParser.START_TAG) {
+                String tag = xpp.getName();
+                if (TAG_ITEM.equals(tag)) {
 
-                    if(j<=44 && i<=27){
-                        maptiles[j][i]=Integer.parseInt(xpp.getAttributeValue(0));
+                    if (j <= 44 && i <= 27) {
+                        maptiles[j][i] = Integer.parseInt(xpp.getAttributeValue(0));
                     }
                     i++;
-                    if ( i % 28 == 0)
-                    {
-                        i=0;
+                    if (i % 28 == 0) {
+                        i = 0;
                         j++;
                     }
 
 
-
                 }
 
-            }*/
+            }
 
-    }
+            invalidate();
+        }
 
-    Bitmap box = BitmapFactory.decodeResource(getResources(), R.drawable.box);
-    //létrehozunk annyi box példányt amennyi csak van a pályán
+        Bitmap box = BitmapFactory.decodeResource(getResources(), R.drawable.box);
+        //létrehozunk annyi box példányt amennyi csak van a pályán
        /* for (int sor=0;i<maptiles.length;i++)//sor
         {
             for(int oszlop=0;j<maptiles[sor].length;j++)//oszlop
@@ -124,22 +126,65 @@ public class MapView extends View {
                     boxes.add(new Box(oszlop*30,sor*30,30,box));
             }
         }*/
-
+    }
 
 
 
     public void BallMove(float x,float y)
     {
+        invalidate();
 
         if(first)
         {
             nullX=x;
             nullY=y;
-            ball.setSize((float)0.8*(getWidth()/28));
+            ball.setSize((float)(getWidth()/28));
+            ball2.setSize((float)(getWidth()/28));
             first=false;
         }
 
-        switch (ball.getType())
+
+        x=nullX-x;
+        y=nullY-y;
+        int i=0;
+        int j=0;
+        boolean canmoveX=true;
+        boolean canmoveY=true;
+        for ( i=0;i<45;i++)
+        {
+            for ( j=0; j<28;j++)
+            {
+               // RectF rt=ball.getToMoveRect(x,y);
+                RectF tr= new RectF(j*35,i*35,(j+1)*35,(i+1)*35);
+                if(tr.intersect(ball.getToMoveRect(x,0))) {
+                    /*switch(maptiles[i][j])
+                    {
+
+                    }*/
+                    if(maptiles[i][j]==4 || maptiles[i][j]==8)
+                    {
+                        canmoveX=false;
+                    }
+                }
+                if(tr.intersect(ball.getToMoveRect(0,y)))
+                {
+                    if(maptiles[i][j]==4 || maptiles[i][j]==8) {
+                        canmoveY = false;
+                    }
+                }
+            }
+        }
+
+        if(canmoveX)
+        {
+            ball.Move( x ,  0 , getWidth(), getHeight());
+        }
+        if(canmoveY)
+        {
+            ball.Move( 0 ,  y , getWidth(), getHeight());
+        }
+
+        /*switch (ball.getType())
         {
             case HEAVY :
                 ball.Move((nullX - x) * (float) 0.5, (nullY - y) * (float) 0.5, getWidth(), getHeight());
@@ -152,13 +197,9 @@ public class MapView extends View {
                 break;
             default:
                 break;
-        }
+        }*/
 
-        if(ball.getRect().intersect(new Rect(300,300,400,400)))
-        {
-            ball.Change(HEAVY,BitmapFactory.decodeResource(getResources(),R.drawable.sphere_00));
 
-        }
 
         /*if ütközés egy tárggyal
         ha az doboz akkor eltoljuk, ha changer akkor váltunk, ha tüske akkor gameOver,
@@ -253,6 +294,7 @@ public class MapView extends View {
                 ball.Move(x+0.5f,y);
             }
         }*/
+
         invalidate();
 
 
@@ -334,11 +376,15 @@ public class MapView extends View {
 
             }
         }*/
+
         //mapRect=new Rect(ball.getBallMiddleX()-this.getWidth()/2,ball.getBallMiddleY()-this.getHeight()/2,ball.getBallMiddleX()+this.getWidth()/2,ball.getBallMiddleY()+this.getHeight()/2);
-        Rect drawRect=new Rect(0,0,getWidth(),getHeight());
+
+        //Rect drawRect=new Rect(0,0,getWidth(),getHeight());
 
        // mapReal.onDraw(canvas,mapRect,drawRect);
-        mapReal.onDraw(canvas,drawRect,drawRect);
+        //mapReal.onDraw(canvas,null,drawRect);
+
+        setBackgroundResource(R.drawable.map2_final);
 
        // Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box);
 
@@ -349,7 +395,10 @@ public class MapView extends View {
                 item.onDraw(canvas);
             }
         }*/
+        ball.setSize((float)(getWidth()/28));
         ball.onDraw(canvas,this.getWidth(),this.getHeight());
+        ball2.setSize((float)(getWidth()/28));
+        ball2.onDraw(canvas,this.getWidth(),this.getHeight());
 
     }
 
@@ -441,5 +490,6 @@ public class MapView extends View {
 
         }
     }*/
+
 
 }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 /**
  * Created by Gábor on 2015.05.02..
@@ -21,7 +22,7 @@ public class Ball {
     private Bitmap ball;
     private int ballMiddleX;
     private int ballMiddleY;
-    private Rect ballRect;
+    private RectF ballRect;
 
 
 
@@ -49,11 +50,11 @@ public class Ball {
         this.size=ball.getWidth();
         type=Type.NORMAL;
         this.ball=ball;
-        this.size=size*(float)0.8;
+        this.size=size;
         //golyó középső ponja a kirajzolás miatt kell
         ballMiddleX=(int)(this.posX+size/2);
         ballMiddleY=(int)(this.posY+size/2);
-        ballRect=new Rect(Math.round(posX),Math.round(posY),Math.round(posX+size),Math.round(posY+size));
+        ballRect=new RectF(posX,posY,posX+size,posY+size);
     }
     public void Move(float posX,float posY, int mapWidth, int mapHeight)
     {
@@ -69,7 +70,7 @@ public class Ball {
             this.posY += posY;
             ballMiddleY=(int)(this.posY+size/2);
         }
-        ballRect=new Rect(Math.round(this.posX),Math.round(this.posY),Math.round(this.posX+size),Math.round(this.posY+size));
+        ballRect=new RectF(this.posX,this.posY,this.posX+size,this.posY+size);
     }
 
     public void Change(Type type,Bitmap ball)
@@ -103,9 +104,15 @@ public class Ball {
     {
         this.size=size;
     }
-    public Rect getRect()
+    public RectF getRect()
     {
         return ballRect;
+    }
+
+    public RectF getToMoveRect(float x,float y)
+    {
+        RectF newRect =new RectF(posX+x,posY+y,+posX+x+size,posY+y+size);
+        return  newRect;
     }
 
 }
