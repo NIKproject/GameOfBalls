@@ -46,7 +46,6 @@ public class MapView extends View {
     float nullY;
     private int mapWidth;
     private int mapHeight;
-    Ball ball2;
 
     public MapView(Context context) throws IOException, XmlPullParserException {
         super(context);
@@ -68,10 +67,10 @@ public class MapView extends View {
     private void Init() throws IOException, XmlPullParserException {
         first = true;
         maptiles = new int[45][28];
+        boxes = new ArrayList<Box>();
         Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11);
 
-        ball = new Ball(/*12*35, 10*35*/0,0, ballBitmap, (float) getWidth() / 28);
-        ball2 = new Ball(13*35,35*35,ballBitmap,(float)getWidth()/28);
+        ball = new Ball(12*35, 10*35, ballBitmap, (float) getWidth() / 28);
         Bitmap backGround = BitmapFactory.decodeResource(getResources(), R.drawable.map2_final);
 
         // mapWidth=backGround.getWidth();
@@ -116,16 +115,9 @@ public class MapView extends View {
             invalidate();
         }
 
-        Bitmap box = BitmapFactory.decodeResource(getResources(), R.drawable.box);
+
         //létrehozunk annyi box példányt amennyi csak van a pályán
-       /* for (int sor=0;i<maptiles.length;i++)//sor
-        {
-            for(int oszlop=0;j<maptiles[sor].length;j++)//oszlop
-            {
-                if(maptiles[sor][oszlop]==1)
-                    boxes.add(new Box(oszlop*30,sor*30,30,box));
-            }
-        }*/
+
     }
 
 
@@ -138,9 +130,10 @@ public class MapView extends View {
         {
             nullX=x;
             nullY=y;
-            ball.setSize((float)(getWidth()/28));
-            ball2.setSize((float)(getWidth()/28));
+            ball.setSize((float)((getWidth()/28)*0.8));
             first=false;
+
+
         }
 
 
@@ -155,26 +148,106 @@ public class MapView extends View {
             for ( j=0; j<28;j++)
             {
                // RectF rt=ball.getToMoveRect(x,y);
-                RectF tr= new RectF(j*35,i*35,(j+1)*35,(i+1)*35);
+                RectF tr= new RectF(j*getWidth()/28,i*getHeight()/45,(j+1)*getWidth()/28,(i+1)*getHeight()/45);
                 if(tr.intersect(ball.getToMoveRect(x,0))) {
-                    /*switch(maptiles[i][j])
-                    {
 
-                    }*/
-                    if(maptiles[i][j]==4 || maptiles[i][j]==8)
+                    switch(maptiles[i][j])
                     {
-                        canmoveX=false;
+                        case 4 :
+                                canmoveX=false;
+                                break;
+                        case 1 :
+                            if(ball.getType()==Type.HEAVY)
+                            {
+                                canmoveX=false;
+                                if(x>0 && (maptiles[i][j+1]==5 || maptiles[i][j+1]==6||maptiles[i][j+1]==7 || maptiles[i][j+1]>9)) {
+
+                                    maptiles[i][j] = 5;
+                                    maptiles[i][j+1] = 1;
+                                }
+                                else if(maptiles[i][j-1]==5 || maptiles[i][j-1]==6||maptiles[i][j-1]==7 || maptiles[i][j-1]>9)
+                                {
+                                    maptiles[i][j] = 5;
+                                    maptiles[i][j-1] = 1;
+                                }
+                            }
+                            else
+                            {
+                                canmoveX = false;
+                            }
+                            break;
+
+                        case 10:
+
+                            ball.Change(Type.NORMAL, BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11));
+                            break;
+                        case 11:
+
+                            ball.Change(Type.HEAVY,BitmapFactory.decodeResource(getResources(), R.drawable.sphere_00));
+                            break;
+                        case 12 :
+                            ball.Change(Type.LIGHT,BitmapFactory.decodeResource(getResources(), R.drawable.volyball));
+
+                            break;
                     }
                 }
                 if(tr.intersect(ball.getToMoveRect(0,y)))
                 {
-                    if(maptiles[i][j]==4 || maptiles[i][j]==8) {
-                        canmoveY = false;
+                    switch(maptiles[i][j])
+                    {
+                        case 4 :
+                            canmoveY=false;
+                            break;
+                        case 1 :
+                            if(ball.getType()==Type.HEAVY)
+                            {
+                                canmoveY=false;
+                                if(y>0 && (maptiles[i+1][j]==5 || maptiles[i+1][j]==6||maptiles[i+1][j]==7 || maptiles[i+1][j]>9)) {
+
+                                    maptiles[i][j] = 5;
+                                    maptiles[i+1][j] = 1;
+                                }
+                                else if(maptiles[i-1][j]==5 || maptiles[i-1][j]==6||maptiles[i-1][j]==7 || maptiles[i-1][j]>9)
+                                {
+                                    maptiles[i][j] = 5;
+                                    maptiles[i-1][j] = 1;
+                                }
+                            }
+                            else
+                            {
+                                canmoveY = false;
+                            }
+                            break;
+                        case 5 :
+
+                            break;
+                        case 10:
+
+                            ball.Change(Type.NORMAL,BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11));
+                            break;
+                        case 11:
+
+                            ball.Change(Type.HEAVY,BitmapFactory.decodeResource(getResources(), R.drawable.sphere_00));
+                            break;
+                        case 12 :
+                            ball.Change(Type.LIGHT,BitmapFactory.decodeResource(getResources(), R.drawable.volyball));
+
+                            break;
                     }
                 }
             }
         }
-
+        switch (ball.getType())
+        {
+            case HEAVY :
+                x=x*(float)0.75;
+                y=y*(float)0.75;
+                break;
+            case LIGHT:
+                x=x*(float)1.25;
+                y=y*(float)1.25;
+                break;
+        }
         if(canmoveX)
         {
             ball.Move( x ,  0 , getWidth(), getHeight());
@@ -184,116 +257,11 @@ public class MapView extends View {
             ball.Move( 0 ,  y , getWidth(), getHeight());
         }
 
-        /*switch (ball.getType())
-        {
-            case HEAVY :
-                ball.Move((nullX - x) * (float) 0.5, (nullY - y) * (float) 0.5, getWidth(), getHeight());
-                break;
-            case LIGHT:
-                ball.Move((nullX - x) * (float) 2, (nullY - y) * (float) 2, getWidth(), getHeight());
-                break;
-            case NORMAL:
-                ball.Move(nullX - x , nullY - y , getWidth(), getHeight());
-                break;
-            default:
-                break;
-        }*/
 
 
 
-        /*if ütközés egy tárggyal
-        ha az doboz akkor eltoljuk, ha changer akkor váltunk, ha tüske akkor gameOver,
-         */
-        /*
-        float leftTopX,leftTopY,leftBottomX,leftBottomY,rightTopX,rightTopY,rightBottomX,rightBottomY;
-        leftTopX=ball.getPosX();
-        leftTopY=ball.getPosY();
-        int columnLeftTop= (int) Math.ceil(leftTopX+x/cellSize);
-        int rowLeftTop=(int)Math.ceil(leftTopY+y/cellSize);
 
-        leftBottomX=ball.getPosX();
-        leftBottomY=ball.getPosY()+ball.getSize();
-        int columnLeftBottom= (int) Math.ceil(leftBottomX+x/cellSize);
-        int rowLeftBottom=(int)Math.ceil(leftBottomY+y/cellSize);
 
-        rightTopX=ball.getPosX()+ball.getSize();
-        rightTopY=ball.getPosY();
-        int columnRightTop= (int) Math.ceil(rightTopX+x/cellSize);
-        int rowRightTop=(int)Math.ceil(rightTopY+y/cellSize);
-
-        rightBottomX=ball.getPosX()+ball.getSize();
-        rightBottomY=ball.getPosY()+ball.getSize();
-        int columnRightBottom= (int) Math.ceil(rightBottomX+x/cellSize);
-        int rowRightBottom=(int)Math.ceil(rightBottomY+y/cellSize);
-
-        //nem tudom hogy vannak az értékek majd tapasztaljuk
-        //ha a gyorsulásmérő x pozitív, jobbra döntünk, negatív=balra
-        //ha y pozitív előre megyünk, ha negatív akkor hátra döntjük magunk felé
-        if(y>0)//előre megyünk
-        {
-            //csak a felső szomszéd cellákat kell ellenőrizni balfelső csúcsnál, jobbfelső csúcs
-            if((maptiles[rowLeftTop][columnLeftTop]==2 || maptiles[rowRightTop][columnRightTop]==2) && ball.getType()==Type.LIGHT)//tüske
-            {
-                //Tüskébe mentünk strand labdával,GameOver nem lépünk
-            }
-            else if((maptiles[rowLeftTop][columnLeftTop]==5 || maptiles[rowRightTop][columnRightTop]==5)){//Fal
-                //Falba ütköztünk nem tudunk arra lépni
-                return;
-            }
-            else if((maptiles[rowLeftTop][columnLeftTop]==7 || maptiles[rowRightTop][columnRightTop]==7) && ball.getType()==Type.HEAVY){
-                //Mágneses mezőre léptünk és acél golyónk van, elkezd húzni jobbra
-                ball.Move(x+0.5f,y);
-            }
-        }
-        else
-        {
-            //lefele megyünk, alsó szomszéd cellák
-            if((maptiles[rowLeftBottom][columnLeftBottom]==2 || maptiles[rowRightBottom][columnRightBottom]==2) && ball.getType()==Type.LIGHT)//tüske
-            {
-                //Tüskébe mentünk strand labdával,GameOver nem lépünk
-            }
-            else if((maptiles[rowLeftBottom][columnLeftBottom]==5 || maptiles[rowRightBottom][columnRightBottom]==5)){//Fal
-                //Falba ütköztünk nem tudunk arra lépni
-                return;
-            }
-            else if((maptiles[rowLeftBottom][columnLeftBottom]==7 || maptiles[rowRightBottom][columnRightBottom]==7) && ball.getType()==Type.HEAVY){
-                //Mágneses mezőre léptünk és acél golyónk van, elkezd húzni jobbra
-                ball.Move(x+0.5f,y);
-            }
-        }
-
-        if(x>0)//jobbra
-        {
-            //jobbra megyünk, jobb oldali szomszéd cellák
-            if((maptiles[rowRightBottom][columnRightBottom]==2 || maptiles[rowRightTop][columnRightTop]==2) && ball.getType()==Type.LIGHT)//tüske
-            {
-                //Tüskébe mentünk strand labdával,GameOver nem lépünk
-            }
-            else if((maptiles[rowRightBottom][columnRightBottom]==5 || maptiles[rowRightTop][columnRightTop]==5)){//Fal
-                //Falba ütköztünk nem tudunk arra lépni
-                return;
-            }
-            else if((maptiles[rowRightBottom][columnRightBottom]==7 || maptiles[rowRightTop][columnRightTop]==7) && ball.getType()==Type.HEAVY){
-                //Mágneses mezőre léptünk és acél golyónk van, elkezd húzni jobbra
-                ball.Move(x+0.5f,y);
-            }
-        }
-        else
-        {
-            //balra megyünk, bal oldali szomszéd cellák
-            if((maptiles[rowLeftBottom][columnLeftBottom]==2 || maptiles[rowLeftTop][columnLeftTop]==2) && ball.getType()==Type.LIGHT)//tüske
-            {
-                //Tüskébe mentünk strand labdával,GameOver nem lépünk
-            }
-            else if((maptiles[rowLeftBottom][columnLeftBottom]==5 || maptiles[rowLeftTop][columnLeftTop]==5)){//Fal
-                //Falba ütköztünk nem tudunk arra lépni
-                return;
-            }
-            else if((maptiles[rowLeftBottom][columnLeftBottom]==7 || maptiles[rowLeftTop][columnLeftTop]==7) && ball.getType()==Type.HEAVY){
-                //Mágneses mezőre léptünk és acél golyónk van, elkezd húzni jobbra
-                ball.Move(x+0.5f,y);
-            }
-        }*/
 
         invalidate();
 
@@ -302,80 +270,7 @@ public class MapView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //super.onDraw(canvas);
 
-        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.game_map2);
-        //canvas.drawBitmap(bitmap,new Rect(10,10,canvas.getWidth(),canvas.getHeight()) , new Rect(0,0,canvas.getWidth()-100,canvas.getHeight()), null);
-
-        //ball.onDraw(canvas);
-        //Ha a doboz benne van a kirajzolt felületbe akkor kirajzoljuk
-
-        //Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.game_map2);
-        //Bitmap background=BitmapFactory.decodeResource(getResources(),R.drawable.map1_nobox);
-        //canvas.drawBitmap(background,new Rect(190,240,190+canvas.getWidth(),240+canvas.getHeight()),new Rect(0,0,canvas.getWidth(),canvas.getHeight()),null);
-        /*new Rect((int)(ball.getPosX()-width/2+ball.getSize()/2),
-                (int)(ball.getPosY()-height/2+ball.getSize()/2),
-                (int)(ball.getPosX()+width/2-ball.getSize()/2),
-                (int)(ball.getPosY()+height/2-ball.getSize()/2)*/
-        /*mapRect=new Rect((int)(ball.getPosX()+ball.getSize()/2-canvas.getWidth()/2),
-                (int)(ball.getPosY()+ball.getSize()/2-canvas.getHeight()/2),
-                (int)(ball.getPosX()-ball.getSize()/2+canvas.getWidth()/2),
-                (int)(ball.getPosY()-ball.getSize()/2-canvas.getHeight()/2)
-        );*/
-        //mapRect=new Rect(0,0,30,30);
-        /*if((ball.getBallMiddleX()-this.getWidth()/2)>0 && (ball.getBallMiddleX()+this.getWidth()/2) < )
-        {
-
-        }*/
-
-        /*if(ball.getBallMiddleX()-this.getWidth()/2>0 && ball.getBallMiddleX()+this.getWidth()/2<getWidth())
-        {
-            if(ball.getBallMiddleY() + this.getHeight() / 2>0 && ball.getBallMiddleY() + this.getHeight() / 2<getWidth())
-            {
-                mapRect = new Rect(ball.getBallMiddleX() - this.getWidth() / 2, ball.getBallMiddleY() - this.getHeight() / 2, ball.getBallMiddleX() + this.getWidth() / 2, ball.getBallMiddleY() + this.getHeight() / 2);
-            }
-            else if(ball.getBallMiddleY() + this.getHeight() / 2>0)
-            {
-                mapRect = new Rect(ball.getBallMiddleX() - this.getWidth() / 2, ball.getBallMiddleY() - this.getHeight() / 2, ball.getBallMiddleX() + this.getWidth() / 2, this.getHeight());
-            }
-            else
-            {
-                mapRect = new Rect(ball.getBallMiddleX() - this.getWidth() / 2, 0, ball.getBallMiddleX() + this.getWidth() / 2, ball.getBallMiddleY() + this.getHeight() / 2);
-
-            }
-        }
-        else if(ball.getBallMiddleX()-this.getWidth()/2>0)
-        {
-            if(ball.getBallMiddleY() + this.getHeight() / 2>0 && ball.getBallMiddleY() + this.getHeight() / 2<getWidth())
-            {
-                mapRect = new Rect(ball.getBallMiddleX() - this.getWidth() / 2, ball.getBallMiddleY() - this.getHeight() / 2, this.getWidth() / 2, ball.getBallMiddleY() + this.getHeight() / 2);
-            }
-            else if(ball.getBallMiddleY() + this.getHeight() / 2>0)
-            {
-                mapRect = new Rect(ball.getBallMiddleX() - this.getWidth() / 2, ball.getBallMiddleY() - this.getHeight() / 2, this.getWidth() / 2, this.getHeight());
-            }
-            else
-            {
-                mapRect = new Rect(ball.getBallMiddleX() - this.getWidth() / 2, 0, this.getWidth() / 2, ball.getBallMiddleY() + this.getHeight() / 2);
-
-            }
-        }
-        else
-        {
-            if(ball.getBallMiddleY() + this.getHeight() / 2>0 && ball.getBallMiddleY() + this.getHeight() / 2<getWidth())
-            {
-                mapRect = new Rect(0 , ball.getBallMiddleY() - this.getHeight() / 2, ball.getBallMiddleX() + this.getWidth() / 2, ball.getBallMiddleY() + this.getHeight() / 2);
-            }
-            else if(ball.getBallMiddleY() + this.getHeight() / 2>0)
-            {
-                mapRect = new Rect(0, ball.getBallMiddleY() - this.getHeight() / 2, ball.getBallMiddleX() + this.getWidth() / 2, this.getHeight());
-            }
-            else
-            {
-                mapRect = new Rect(0, 0, ball.getBallMiddleX() + this.getWidth() / 2, ball.getBallMiddleY() + this.getHeight() / 2);
-
-            }
-        }*/
 
         //mapRect=new Rect(ball.getBallMiddleX()-this.getWidth()/2,ball.getBallMiddleY()-this.getHeight()/2,ball.getBallMiddleX()+this.getWidth()/2,ball.getBallMiddleY()+this.getHeight()/2);
 
@@ -386,19 +281,40 @@ public class MapView extends View {
 
         setBackgroundResource(R.drawable.map2_final);
 
-       // Bitmap box=BitmapFactory.decodeResource(getResources(),R.drawable.box);
+
 
         //canvas.drawBitmap(box,new Rect(0,0,30,30),new Rect(0,0,this.getWidth(),this.getHeight()),null);
+        if(first) {
+                 Bitmap box = BitmapFactory.decodeResource(getResources(), R.drawable.box);
+                    for (int sor = 0; sor < maptiles.length; sor++)//sor
+                     {
+                           for (int oszlop = 0; oszlop < maptiles[sor].length; oszlop++)//oszlop
+                           {
+                                if (maptiles[sor][oszlop] == 1)
+                                      boxes.add(new Box(oszlop * getWidth() / 28, sor * getHeight() / 45, getWidth() / 28, box));
+                               }
+                            }
+                 }
+
         /*for(Box item:boxes){
-            if(mapRect.contains((int)item.getPosX(),(int)item.getPosY(),(int)(item.getPosX()+item.getSize()),(int)(item.getPosY()+item.getSize())))
-            {
+
                 item.onDraw(canvas);
-            }
+
         }*/
-        ball.setSize((float)(getWidth()/28));
+
+        for (int i=0; i<45; i++ )
+        {
+            for (int j=0; j<28; j++ )
+            {
+                if(maptiles[i][j]==1)
+
+                {
+                    canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.box),null,new Rect(j*getWidth()/28,i*getHeight()/45,(j+1)*getWidth()/28,(i+1)*getHeight()/45),null);
+                }
+            }
+        }
+
         ball.onDraw(canvas,this.getWidth(),this.getHeight());
-        ball2.setSize((float)(getWidth()/28));
-        ball2.onDraw(canvas,this.getWidth(),this.getHeight());
 
     }
 

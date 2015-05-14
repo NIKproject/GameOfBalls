@@ -77,9 +77,16 @@ public class Ball {
     {
         if(type!=this.type)
         {
+            if(this.type==Type.LIGHT)
+            {
+                size=size*(float)1.4;
+            }
             this.type=type;
             this.ball=ball;
-
+            if(type==Type.LIGHT)
+            {
+                size=size*(float)0.7;
+            }
         }
 
     }
