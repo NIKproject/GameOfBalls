@@ -177,6 +177,15 @@ public class MapView extends View {
                             }
                             break;
 
+                        case 6:
+                            x-=0.5;
+                            break;
+
+                        case 7:
+                            x+=0.5;
+                            break;
+
+
                         case 10:
 
                             ball.Change(Type.NORMAL, BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11));
@@ -220,6 +229,13 @@ public class MapView extends View {
                             break;
                         case 5 :
 
+                            break;
+                        case 6:
+                            x-=0.5;
+                            break;
+
+                        case 7:
+                            x+=0.5;
                             break;
                         case 10:
 
