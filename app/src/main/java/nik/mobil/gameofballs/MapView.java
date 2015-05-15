@@ -19,10 +19,13 @@ import android.hardware.SensorManager;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -30,10 +33,19 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import static nik.mobil.gameofballs.Type.*;
 
@@ -52,6 +64,13 @@ public class MapView extends View {
     float nullY;
     private int mapWidth;
     private int mapHeight;
+    long scoreStartTimer;
+    long scoreStopTimer;
+    private String playerName;
+
+    public void setPlayerName(String name){
+        playerName=name;
+    }
 
     public MapView(Context context) throws IOException, XmlPullParserException {
         super(context);
@@ -62,6 +81,7 @@ public class MapView extends View {
 
     public MapView(Context context, AttributeSet attrs) throws IOException, XmlPullParserException {
         super(context, attrs);
+
         Init();
     }
 
@@ -71,6 +91,7 @@ public class MapView extends View {
     }
 
     private void Init() throws IOException, XmlPullParserException {
+
         first = true;
         maptiles = new int[45][28];
         boxes = new ArrayList<Box>();
@@ -121,6 +142,7 @@ public class MapView extends View {
             invalidate();
         }
 
+        scoreStartTimer=System.currentTimeMillis();
 
         //létrehozunk annyi box példányt amennyi csak van a pályán
 
@@ -219,7 +241,11 @@ public class MapView extends View {
                         case 13:
                             canmoveX=false;
                             Toast.makeText( getContext().getApplicationContext(), "You won", Toast.LENGTH_LONG).show();
+                            scoreStopTimer=System.currentTimeMillis();
+                            long elapsedTime=scoreStartTimer-scoreStopTimer;
+                            int score=10000-(int)elapsedTime/500;
 
+                            Score.AddScore(score,playerName);
                             Activity activity1 = (Activity) getContext();
                             activity1.finish();
                             break;
@@ -292,7 +318,11 @@ public class MapView extends View {
                         case 13:
                             canmoveY=false;
                             Toast.makeText( getContext().getApplicationContext(), "You won", Toast.LENGTH_LONG).show();
+                            scoreStopTimer=System.currentTimeMillis();
+                            long elapsedTime=scoreStartTimer-scoreStopTimer;
+                            int score=10000-(int)elapsedTime/500;
 
+                            Score.AddScore(score,playerName);
                             Activity activity1 = (Activity) getContext();
                             activity1.finish();
                             break;
@@ -383,92 +413,7 @@ public class MapView extends View {
 
 
 
-    /*public void ParseMapFromXml() throws XmlPullParserException, IOException {
-        XmlPullParser parser = Xml.newPullParser();
-        parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 
-        File iomap = new File("asdl");
-        FileInputStream fis = new FileInputStream(iomap);
-
-        parser.setInput(new InputStreamReader(fis));
-        parser.nextTag();
-
-        parser.require(XmlPullParser.START_TAG, null, "map");
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            String name = parser.getName();
-            // Starts by looking for the entry tag
-            if (name.equals("data")) {
-                map.add(readTile(parser));
-            } else {
-                skip(parser);
-            }
-        }
-
-
-    }
-
-    private Integer readTile(XmlPullParser parser) throws XmlPullParserException, IOException {
-        String tile = null;
-
-        while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            String name = parser.getName();
-            if (name.equals("tile")) {
-                if (parser.next() == XmlPullParser.TEXT) {
-                    tile = parser.getText();
-                }
-            } else {
-                skip(parser);
-            }
-        }
-        return Integer.parseInt(tile);
-
-    }
-
-    private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
-        if (parser.getEventType() != XmlPullParser.START_TAG) {
-            throw new IllegalStateException();
-        }
-        int depth = 1;
-        while (depth != 0) {
-            switch (parser.next()) {
-                case XmlPullParser.END_TAG:
-                    depth--;
-                    break;
-                case XmlPullParser.START_TAG:
-                    depth++;
-                    break;
-            }
-        }
-    }
-
-    private void FromListToArray()
-    {
-        maptiles=new int[30][30];
-        int i=0;
-        int j=0;
-        int z=0;
-        while(z<map.size())
-        {
-            maptiles[i][j]=map.get(z);
-            if(j<30)
-            {
-                j++;
-            }
-            else
-            {
-                i++;
-                j=0;
-            }
-            z++;
-
-        }
-    }*/
 
 
 }

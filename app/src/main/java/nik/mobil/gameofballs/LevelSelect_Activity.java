@@ -26,9 +26,12 @@ public class LevelSelect_Activity extends Activity {
         setContentView(R.layout.activity_level_select_);
         sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
         mapView=(MapView)findViewById(R.id.view);
+        String name=getIntent().getExtras().getString("name");
+
         x=0;
         y=0;
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mapView.setPlayerName(name);
         //ball=new Ball(5,5); //majd a pályátó függően kéne
 
     }

@@ -3,6 +3,7 @@ package nik.mobil.gameofballs;
 import android.content.SharedPreferences;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,139 +46,48 @@ public class Score_Activity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_);
-        /*dbHandler=new DBHandler(this);
 
-        Cursor players=dbHandler.getAllPlayer();
-        List<String> scoresList;
-        while(!players.isAfterLast())
-        {
-            String data="";
-            //data=players.getColumnName(0)+"-"+players.
-
-        }*/
         String[] names=new String[10];
         Integer[] score=new Integer[10];
-        /*
-        XmlResourceParser xpp = getResources().getXml(R.raw.score);
-
-        try {
-            int eventType = xpp.getEventType();
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        }
-
-        String asd = xpp.getName();
-        String nameTXT="";
-        String scoreTXT="";
-        int event;
-        String TAG_NAME = "name";
-        String TAG_SCORE="score";
-        int i=0;
-        String tagbefore="";
-        try {
-            while ((event = xpp.next()) != XmlPullParser.END_DOCUMENT) {
-                if(TAG_NAME.equals(tagbefore) && event==XmlPullParser.TEXT)
-                {
-                    names[i]=xpp.getText();
-
-
-                }
-                else if(event==XmlPullParser.TEXT)
-                {
-                    score[i]=Integer.parseInt(xpp.getText());
-                    i++;
-                }
-                else if(event==XmlPullParser.START_TAG){
-                    tagbefore=xpp.getName();
-                }
-            }
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
-
 
 
         try{
+            //kivesszük a score.xml elérési útját
             File file=new File(getFilesDir(),"score.xml");
-            ClassLoader classLoader=getClass().getClassLoader();
-            //File file=new File(classLoader.getResource("res/raw/score.xml").getFile());
+
             DocumentBuilderFactory docFactory=DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-            //Document doc=docBuilde.
+
             InputStream is=getResources().openRawResource(R.raw.score);
             Document doc=docBuilder.parse(file);
-            Node nodes=doc.getElementsByTagName("name").item(0);
-            //nodes.setNodeValue("Gábor");
-            //nodes.setTextContent("Tibor");
-
-            Transformer transformer= TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT,"yes");
-
-
-
-            StreamResult result=new StreamResult(file);
-            DOMSource source=new DOMSource(doc);
-            transformer.transform(source,result);
-
-                        //File file=new File()
-
-        }
-        catch (Exception e){
-            Log.d("test",e.getMessage());
-        }
-
-
-        String asd="asd";
-        String child="";
-        String apa="";
-        String anya="";
-
-        try{
-            File file=new File(getFilesDir(),"score.xml");
-            ClassLoader classLoader=getClass().getClassLoader();
-            //File file=new File(classLoader.getResource("res/raw/score.xml").getFile());
-            DocumentBuilderFactory docFactory=DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder=docFactory.newDocumentBuilder();
-            //Document doc=docBuilde.
-            InputStream is=getResources().openRawResource(R.raw.score);
-            Document doc=docBuilder.parse(file);
+            //az összes name és score tag elemet kiválasztjuk és bejárjuk őket olvasás miatt
             NodeList nodeList=doc.getElementsByTagName("name");
             for(int i=0;i<nodeList.getLength();i++){
                 names[i]=nodeList.item(i).getChildNodes().item(0).getNodeValue();
             }
-            //Node nodes=doc.getElementsByTagName("name").item(0);
-            //nodes.setNodeValue("Gábor");
-            //nodes.setTextContent("Tibor");
-            //asd=nodes.getNodeValue();
-            //child=nodes.getNodeName();
-            //apa=nodes.getChildNodes().item(0).getNodeName();
-            //anya=nodes.getChildNodes().item(0).getNodeValue();
+
             nodeList=doc.getElementsByTagName("score");
             for(int i=0;i<nodeList.getLength();i++){
                 score[i]=Integer.parseInt(nodeList.item(i).getChildNodes().item(0).getNodeValue());
             }
-
+            //adat mentés vissza az eredetibe
             Transformer transformer= TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT,"yes");
-
-
 
             StreamResult result=new StreamResult(file);
             DOMSource source=new DOMSource(doc);
             transformer.transform(source,result);
 
-            //File file=new File()
+
 
         }
         catch (Exception e){
             Log.d("test",e.getMessage());
         }
+
         String[] scores=new String[names.length];
         listView=(ListView)findViewById(R.id.score_list);
+
         for(int k=0;k<names.length;k++)
         {
             if(score[k]!=null)
@@ -188,11 +98,10 @@ public class Score_Activity extends ActionBarActivity {
                 scores[k]="";
 
         }
-
+        //ListView adapter előállítás megjelenítéshez
         ListAdapter adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,scores);
         listView.setAdapter(adapter);
 
-        Toast.makeText(Score_Activity.this,asd,Toast.LENGTH_SHORT).show();
     }
     public void BackToMain(View view)
     {

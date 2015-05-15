@@ -1,13 +1,20 @@
 package nik.mobil.gameofballs;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import java.io.File;
+import java.io.InputStream;
 
 
 public class Main extends ActionBarActivity {
@@ -16,6 +23,8 @@ public class Main extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        File file=new File(getFilesDir(),"score.xml");
+        Score.AddFile(file);
     }
 
     public void exit(View v) {
@@ -28,8 +37,29 @@ public class Main extends ActionBarActivity {
     }
 
     public void openGame(View view){
-        Intent intent = new Intent(this, LevelSelect_Activity.class);
-        startActivity(intent);
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("Kérlek adj meg egy nevet!");
+        final EditText input = new EditText(this);
+
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        builder.setView(input);
+
+        builder.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String data2;
+                if(!(data2=input.getText().toString()).isEmpty())
+                {
+                    Intent intent = new Intent(Main.this, LevelSelect_Activity.class);
+                    intent.putExtra("name",data2);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        builder.show();
+
     }
 
     public void openScore(View view){
