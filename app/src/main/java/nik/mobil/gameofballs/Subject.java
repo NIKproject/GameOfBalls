@@ -29,7 +29,7 @@ public abstract class Subject {
 
 
 
-    public abstract void onDraw(Canvas canvas,float ballX,float ballY,float ballXOnScreen,float ballYOnScreen);
+    public abstract void onDraw(Canvas canvas);
 
     public float getPosY() {
         return posY;

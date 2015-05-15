@@ -14,7 +14,7 @@ public class Changer extends Subject {
     }
 
     @Override
-    public void onDraw(Canvas canvas,float ballX,float ballY,float ballXOnScreen,float ballYOnScreen) {
+    public void onDraw(Canvas canvas) {
         Bitmap bitmap= BitmapFactory.decodeFile("drawable/game_map.png");//kép kell vagy megadni hogy honnan vágja ki a game_map.pngből
         canvas.drawBitmap(bitmap,posX,posY,null);
     }
