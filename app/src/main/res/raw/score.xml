@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <player>
+        <name>BBB</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+    <player>
+        <name>AAA</name>
+        <score>0</score>
+    </player>
+</resources>

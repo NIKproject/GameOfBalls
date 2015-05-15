@@ -1,5 +1,7 @@
 package nik.mobil.gameofballs;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -29,13 +31,17 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import static nik.mobil.gameofballs.Type.*;
 
 /**
  * Created by Gábor on 2015.05.02..
  */
 public class MapView extends View {
-
+    DialogFragment fragment;
+    protected AlertDialog.Builder alert;
     private int[][] maptiles;
     private Ball ball;
     private List<Box> boxes;
@@ -66,6 +72,8 @@ public class MapView extends View {
     }
 
     private void Init() throws IOException, XmlPullParserException {
+        DialogFragment dialog=new DialogFragment();
+
         first = true;
         maptiles = new int[45][28];
         Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11);
@@ -126,6 +134,9 @@ public class MapView extends View {
                     boxes.add(new Box(oszlop*30,sor*30,30,box));
             }
         }*/
+
+
+
     }
 
 

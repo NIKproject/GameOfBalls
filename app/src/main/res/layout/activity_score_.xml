@@ -13,10 +13,15 @@
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/abc_text_size_display_1_material"
         android:textStyle="bold"/>
-    <TextView
+    <ListView
+        android:id="@+id/score_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/scores_title"/>
+    <TextView
+        android:id="@+id/score_listText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
