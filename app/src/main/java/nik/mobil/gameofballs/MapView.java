@@ -1,6 +1,9 @@
 package nik.mobil.gameofballs;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -11,11 +14,14 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -153,6 +159,12 @@ public class MapView extends View {
 
                     switch(maptiles[i][j])
                     {
+                        case 2:
+                            canmoveX=false;
+                            break;
+                        case 3:
+                            canmoveX=false;
+                            break;
                         case 4 :
                                 canmoveX=false;
                                 break;
@@ -184,7 +196,13 @@ public class MapView extends View {
                         case 7:
                             x+=0.5;
                             break;
+                        case 8:
+                            canmoveX=false;
+                            Toast.makeText( getContext().getApplicationContext(), "Game over", Toast.LENGTH_LONG).show();
 
+                           Activity activity = (Activity) getContext();
+                            activity.finish();
+                            break;
 
                         case 10:
 
@@ -197,6 +215,13 @@ public class MapView extends View {
                         case 12 :
                             ball.Change(Type.LIGHT,BitmapFactory.decodeResource(getResources(), R.drawable.volyball));
 
+                            break;
+                        case 13:
+                            canmoveX=false;
+                            Toast.makeText( getContext().getApplicationContext(), "You won", Toast.LENGTH_LONG).show();
+
+                            Activity activity1 = (Activity) getContext();
+                            activity1.finish();
                             break;
                     }
                 }
@@ -227,6 +252,12 @@ public class MapView extends View {
                                 canmoveY = false;
                             }
                             break;
+                        case 2:
+                            canmoveY=false;
+                            break;
+                        case 3:
+                            canmoveY=false;
+                            break;
                         case 5 :
 
                             break;
@@ -236,6 +267,15 @@ public class MapView extends View {
 
                         case 7:
                             x+=0.5;
+
+                            break;
+
+                        case 8:
+                            canmoveY=false;
+                            Toast.makeText( getContext().getApplicationContext(), "Game over", Toast.LENGTH_LONG).show();
+
+                            Activity activity = (Activity) getContext();
+                            activity.finish();
                             break;
                         case 10:
 
@@ -248,6 +288,13 @@ public class MapView extends View {
                         case 12 :
                             ball.Change(Type.LIGHT,BitmapFactory.decodeResource(getResources(), R.drawable.volyball));
 
+                            break;
+                        case 13:
+                            canmoveY=false;
+                            Toast.makeText( getContext().getApplicationContext(), "You won", Toast.LENGTH_LONG).show();
+
+                            Activity activity1 = (Activity) getContext();
+                            activity1.finish();
                             break;
                     }
                 }
