@@ -19,6 +19,10 @@ public class LevelSelect_Activity extends Activity {
     int x;
     int y;
     Ball ball;
+    long scoreStartTimer;
+    long scoreStopTimer;
+    int end;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +30,8 @@ public class LevelSelect_Activity extends Activity {
         setContentView(R.layout.activity_level_select_);
         sensorManager=(SensorManager)getSystemService(SENSOR_SERVICE);
         mapView=(MapView)findViewById(R.id.view);
-        String name=getIntent().getExtras().getString("name");
-
+         name=getIntent().getExtras().getString("name");
+        scoreStartTimer=System.currentTimeMillis();
         x=0;
         y=0;
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -57,7 +61,24 @@ public class LevelSelect_Activity extends Activity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             float[] values=sensorEvent.values;
-            mapView.BallMove(values[0],-values[1]);
+            end= mapView.BallMove(values[0],-values[1]);
+             if(end>0)
+             {
+                 if(end==1)
+                 {
+
+                 }
+                 else
+                 {
+                     scoreStopTimer=System.currentTimeMillis();
+                     long elapsedTime=scoreStartTimer-scoreStopTimer;
+                     int score=10000-(int)elapsedTime/500;
+
+                     Score.AddScore(score,name);
+                 }
+                 sensorManager.unregisterListener(listener);
+                 finish();
+             }
 
             //BallMoveban van valami hiba féleség ami a program leáálását jelentiát kell nézni
             /*if(x!=values[0])

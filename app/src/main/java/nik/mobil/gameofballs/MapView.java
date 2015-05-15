@@ -150,7 +150,7 @@ public class MapView extends View {
 
 
 
-    public void BallMove(float x,float y)
+    public int BallMove(float x,float y)
     {
         invalidate();
 
@@ -222,9 +222,9 @@ public class MapView extends View {
                             canmoveX=false;
                             Toast.makeText( getContext().getApplicationContext(), "Game over", Toast.LENGTH_LONG).show();
 
-                           Activity activity = (Activity) getContext();
-                            activity.finish();
-                            break;
+                           //Activity activity = (Activity) getContext();
+                           // activity.finish();
+                            return  1;
 
                         case 10:
 
@@ -246,9 +246,9 @@ public class MapView extends View {
                             int score=10000-(int)elapsedTime/500;
 
                             Score.AddScore(score,playerName);
-                            Activity activity1 = (Activity) getContext();
-                            activity1.finish();
-                            break;
+                           // Activity activity1 = (Activity) getContext();
+                            //activity1.finish();
+                            return 2;
                     }
                 }
                 if(tr.intersect(ball.getToMoveRect(0,y)))
@@ -300,9 +300,9 @@ public class MapView extends View {
                             canmoveY=false;
                             Toast.makeText( getContext().getApplicationContext(), "Game over", Toast.LENGTH_LONG).show();
 
-                            Activity activity = (Activity) getContext();
-                            activity.finish();
-                            break;
+                            //Activity activity = (Activity) getContext();
+                            //activity.finish();
+                            return 1;
                         case 10:
 
                             ball.Change(Type.NORMAL,BitmapFactory.decodeResource(getResources(), R.drawable.sphere_11));
@@ -323,9 +323,9 @@ public class MapView extends View {
                             int score=10000-(int)elapsedTime/500;
 
                             Score.AddScore(score,playerName);
-                            Activity activity1 = (Activity) getContext();
-                            activity1.finish();
-                            break;
+                            //Activity activity1 = (Activity) getContext();
+                           // activity1.finish();
+                            return 2;
                     }
                 }
             }
@@ -358,7 +358,7 @@ public class MapView extends View {
 
         invalidate();
 
-
+        return  0;
     }
 
     @Override
